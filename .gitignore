@@ -1,0 +1,5 @@
+# Avoid large or unnecessary files
+data/
+*.npy
+__pycache__/
+*.pyc
