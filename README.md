@@ -12,6 +12,7 @@ This project develops a machine learning-based surrogate model to predict dendri
 ├── 100 by 100 final frame/        # Earlier version with 100×100 grid (only considered for testing).
 ├── 250 by 250 all frames/         # Final experiments on full time-series data.
 ├── Final Report.pdf               # Final results and analysis.
+├── Guide.txt                      # Overall aproach of the project
 ├── README.md                      # Project overview and instructions.
 
 ## Getting Started
