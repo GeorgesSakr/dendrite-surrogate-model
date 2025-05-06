@@ -1,0 +1,88 @@
+Guide.txt
+
+Input
+- Input parameters:
+  - ΔT₀: Initial undercooling  
+  - c: Anisotropy strength  
+  - N: Mode number for orientation function  
+  - θ: Orientation angle (degrees)  
+  - seed_radius: Radius of the initial nucleus  
+  - seed_type: Typically "circle" (default)  
+  (For full reproducibility, see `Data Generation.py` and `PDE_Model.py`)
+
+Output
+- Field: ξ — the phase-field scalar representing material phase (ξ = 1 solid, ξ = 0 liquid)
+- Saved as: xi_series_<run_id>.npy 
+
+Dataset Organization and Model Pipelines
+Contents:
+1. PDE Generation
+   - Base model obtained from FiPy (anisotropy example).
+   - Time-dependent simulation of ξ and ΔT via finite volume discretization.
+   Data Generator
+   - Iterates over all parameter combinations.
+   - Runs multiple simulations and saves outputs.
+   Parallel Version
+   - Parallelized version for multiple CPUs to accelerate data generation.
+   Metadata Builder
+   - Associates each `.npy` file with its simulation parameters.
+   - Saves metadata.json for reproducibility and easy lookup.
+   Plotting Utility
+   - Accepts a simulation index.
+   - Returns and saves a plot of the corresponding dendrite structure
+
+
+100x100 Final Frame
+- Used for early hypothesis testing and fast prototyping.
+- Each Jupyter notebook contains a brief description at the top.
+- Included methods:
+  - Train/test splitting
+  - Linear Regression
+  - Polynomial Regression
+  - Convolutional Neural Network (CNN)
+  - Physics-Informed Neural Network (PINN)
+  - Gaussian Process Regression
+- Rationale:
+  - Linear regression served as the baseline due to its simplicity.
+  - The small grid size allowed rapid iteration before moving to the full-resolution setup.
+  - An outlier has been found at index 228 , however it was an outlier later on in the 250 by 250 data. (a reason could be numerical errors due to low resolution). A GIF has been included for visuals.
+  - Both training and testing MSEs were low, which means we might be underfitting. This prompted us to add complexity to our model.
+
+250x250 Final Frame
+- Same pipeline, scaled to realistic resolution.
+- Used only the final frame (ξ(T_final, x, y)).
+- Each Jupyter notebook contains a brief description at the top.
+- Included methods:
+  - Train/test splitting
+  - Linear Regression
+  - Polynomial Regression
+  - CNN
+  - PINN
+
+250x250 All Frames
+Used to model the full temporal evolution of the dendritic growth process.
+
+Data_Processing:
+- Prepares data all frames:
+- Generates matrices X and Y:
+  - X contains the simulation input parameters.
+  - Y contains the corresponding full-frame evolution outputs (ξ over all time steps).
+- Splits the data into training and testing sets.
+
+CNN_Model_and_Training:
+- Loads the processed X and Y data.
+- Imports the CNN class (i.e., the convolutional model definition).
+- Trains the CNN model, tracking MSE over epochs.
+- Evaluates the model on the test set.
+- Visualizes predictions vs. ground truth dendrite growth patterns.
+
+Optimization:
+- Loads the CNN model.
+- Defines the solid fraction (SF) computation function.
+- Identifies the run with the highest SF.
+- Repeats the same for branchiness.
+- Computes and reports the correlation between SF and branchiness.
+
+Visuals_interactive:
+- Loads the best trained CNN model.
+- Builds an interactive or visual interface that takes input parameters and returns the predicted ξ field.
