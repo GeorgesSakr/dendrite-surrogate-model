@@ -14,6 +14,7 @@ This project develops a machine learning-based surrogate model to predict dendri
 ├── Final Report.pdf               # Final results and analysis.
 ├── Guide.txt                      # Overall aproach of the project
 ├── README.md                      # Project overview and instructions.
+├── LICENSE                        # MIT license text
 
 ## Getting Started
 
